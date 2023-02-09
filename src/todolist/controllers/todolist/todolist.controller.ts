@@ -1,4 +1,9 @@
-import { Controller } from '@nestjs/common';
+import { Controller, Get } from '@nestjs/common';
 
-@Controller('todolist')
-export class TodolistController {}
+@Controller({ path: 'todolist', version: '1' })
+export class TodolistController {
+  @Get()
+  getTodos() {
+    return 'Hello World';
+  }
+}

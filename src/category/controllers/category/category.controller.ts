@@ -7,11 +7,14 @@ import {
   ParseIntPipe,
   Post,
   Put,
+  UseInterceptors,
 } from '@nestjs/common';
 import { CategoryService } from 'src/category/services/category/category.service';
 import { CreateCategoryDto, UpdateCategoryDto } from 'src/dtos';
+import { TransformInterceptor } from 'src/middlewares';
 
-@Controller('category')
+@UseInterceptors(TransformInterceptor)
+@Controller({ path: 'category', version: '1' })
 export class CategoryController {
   constructor(private categoryService: CategoryService) {}
 

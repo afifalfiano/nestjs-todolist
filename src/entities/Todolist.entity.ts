@@ -31,6 +31,6 @@ export class TodolistEntity {
     @UpdateDateColumn()
     updatedAt: Date;
 
-    @ManyToOne(() => CategoryEntity, (category) => category.todolists)
+    @ManyToOne(() => CategoryEntity, (category) => category.todolists, {onDelete: 'SET NULL'})
     category: CategoryEntity;
 }

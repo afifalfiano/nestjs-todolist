@@ -23,7 +23,7 @@ export class CategoryEntity {
   @UpdateDateColumn()
   updatedAt: Date;
 
-  @OneToMany(() => TodolistEntity, (todolist) => todolist.category)
+  @OneToMany(() => TodolistEntity, (todolist) => todolist.category, {onDelete: 'SET NULL'})
   todolists: TodolistEntity[]
 
 }
