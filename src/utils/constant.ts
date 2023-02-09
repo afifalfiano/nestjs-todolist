@@ -1,3 +1,3 @@
 export class CONSTANT {
-  static API_PREFIX: 'api/v1';
+  static API_PREFIX = '/api/v1/';
 }

@@ -32,13 +32,16 @@ export class CategoryService {
     return this.categoryRepository.save(newCategory);
   }
   async findById(id: number) {
-    const category = await this.categoryRepository.findOneBy({ id });
+    const category = await this.categoryRepository.findOne({
+      where: {id},
+      relations: ['todolists'],
+    });
     if (!category) {
       throw new HttpException('Category Not Found!', HttpStatus.BAD_REQUEST);
     }
     return category;
   }
   findAll() {
-    return this.categoryRepository.find();
+    return this.categoryRepository.find({ relations: ['todolists'] });
   }
 }

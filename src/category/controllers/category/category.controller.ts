@@ -12,9 +12,10 @@ import {
 import { CategoryService } from 'src/category/services/category/category.service';
 import { CreateCategoryDto, UpdateCategoryDto } from 'src/dtos';
 import { TransformInterceptor } from 'src/middlewares';
+import { CONSTANT } from 'src/utils';
 
 @UseInterceptors(TransformInterceptor)
-@Controller({ path: 'category', version: '1' })
+@Controller({ path: CONSTANT.API_PREFIX + 'category', version: '1' })
 export class CategoryController {
   constructor(private categoryService: CategoryService) {}
 
