@@ -23,7 +23,7 @@ export class TodolistEntity {
     due_time: Date;
 
     @Column({enum: StatusTodos, type: 'enum', default: StatusTodos.TODO})
-    is_complete: string;
+    status: string;
 
     @CreateDateColumn()
     createdAt: Date;

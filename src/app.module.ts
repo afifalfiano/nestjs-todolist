@@ -11,7 +11,7 @@ import { CategoryEntity, TodolistEntity } from './entities';
     TodolistModule,
     CategoryModule,
     TypeOrmModule.forRoot({
-      type: 'mysql',
+      type: 'mariadb',
       host: 'localhost',
       port: 3306,
       username: 'root',
