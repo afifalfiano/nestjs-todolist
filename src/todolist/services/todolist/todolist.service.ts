@@ -14,11 +14,19 @@ export class TodolistService {
     private categoryRepository: Repository<CategoryEntity>,
   ) {}
 
-  findAll() {
-    return this.todolistRepository.find({
+  async findAll() {
+    const data = await this.todolistRepository.find({
       relations: ['category'],
       order: { createdAt: 'ASC' },
     });
+    const remapTodolist = [...data].map((item) => {
+      delete item.id;
+      if (item.category) {
+        delete item?.category.id;
+      }
+      return { ...item };
+    });
+    return remapTodolist;
   }
 
   async findTodoById(uuid: string) {
@@ -27,7 +35,12 @@ export class TodolistService {
       where: { uuid },
     });
 
-    return data;
+    const remapTodolist = { ...data };
+    delete remapTodolist.id;
+    if (remapTodolist.category) {
+      delete remapTodolist.category.id;
+    }
+    return remapTodolist;
   }
 
   async changeStatusTodo(uuid: string, status: StatusTodos) {
@@ -36,12 +49,20 @@ export class TodolistService {
       throw new HttpException('Todo is not found!', HttpStatus.BAD_REQUEST);
     }
     data.status = status;
-    return this.todolistRepository.save(data);
+    const saveStatus = await this.todolistRepository.save(data);
+    const remapTodolist = { ...saveStatus };
+    delete remapTodolist.id;
+    return remapTodolist;
   }
 
-  createTodo(createTodolistDto: CreateTodolistParams) {
-    const newTodo = this.todolistRepository.create({ ...createTodolistDto });
-    return this.todolistRepository.save(newTodo);
+  async createTodo(createTodolistDto: CreateTodolistParams) {
+    const newTodo = await this.todolistRepository.create({
+      ...createTodolistDto,
+    });
+    const data = await this.todolistRepository.save(newTodo);
+    const remapTodolist = { ...data };
+    delete remapTodolist.id;
+    return remapTodolist;
   }
 
   deleteTodo(uuid: string) {

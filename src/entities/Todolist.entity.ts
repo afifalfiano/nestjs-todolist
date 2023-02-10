@@ -1,3 +1,4 @@
+import { Exclude } from 'class-transformer';
 import {
   Column,
   CreateDateColumn,
@@ -18,9 +19,8 @@ export enum StatusTodos {
 
 @Entity({ name: 'todolist' })
 export class TodolistEntity {
-
   @PrimaryGeneratedColumn()
-  id: string | number
+  id: string | number;
 
   @Column()
   @Generated('uuid')
@@ -45,7 +45,7 @@ export class TodolistEntity {
   updatedAt: Date;
 
   @ManyToOne(() => CategoryEntity, (category) => category.todolists, {
-    onDelete: 'SET NULL'
+    onDelete: 'SET NULL',
   })
   category: CategoryEntity;
 }

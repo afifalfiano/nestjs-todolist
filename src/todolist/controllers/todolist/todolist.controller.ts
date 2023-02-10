@@ -30,6 +30,11 @@ export class TodolistController {
   getTodoById(@Param('uuid', ParseUUIDPipe) uuid: string) {
     return this.todolistService.findTodoById(uuid);
   }
+  
+  @Get('/count/:totalStatus')
+  countTotalStatus(@Param('totalStatus') status: StatusTodos) {
+    return this.todolistService.countTotalStatus(status);
+  }
 
   @Put(':uuid/:status')
   changeStatusTodo(
@@ -58,11 +63,6 @@ export class TodolistController {
     @Body() updateTodolistDto: UpdateTodolistDto,
   ) {
     return this.todolistService.updateTodo(uuid, updateTodolistDto);
-  }
-
-  @Get('/count/:totalStatus')
-  countTotalStatus(@Param('totalStatus') status: StatusTodos) {
-    return this.todolistService.countTotalStatus(status);
   }
   
 }
