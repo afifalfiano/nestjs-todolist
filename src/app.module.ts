@@ -1,6 +1,4 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
 import { TodolistModule } from './todolist/todolist.module';
 import { CategoryModule } from './category/category.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
@@ -26,9 +24,8 @@ import { APP_GUARD } from '@nestjs/core';
       synchronize: true,
     }),
   ],
-  controllers: [AppController],
+  controllers: [],
   providers: [
-    AppService,
     {
       provide: APP_GUARD,
       useClass: ThrottlerGuard,

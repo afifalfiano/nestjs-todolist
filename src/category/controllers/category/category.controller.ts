@@ -11,18 +11,21 @@ import {
   ParseUUIDPipe,
   UseInterceptors,
 } from '@nestjs/common';
+import { ApiQuery, ApiTags } from '@nestjs/swagger';
 import { CategoryService } from 'src/category/services/category/category.service';
 import { CreateCategoryDto, UpdateCategoryDto } from 'src/dtos';
 import { TransformInterceptor } from 'src/middlewares';
 import { CONSTANT } from 'src/utils';
 
+@ApiTags('Category')
 @UseInterceptors(TransformInterceptor)
 @Controller({ path: CONSTANT.API_PREFIX + 'category', version: '1' })
 export class CategoryController {
   constructor(private categoryService: CategoryService) {}
 
+  @ApiQuery({ name: 'search', required: false, type: String })
   @Get()
-  getCategories(@Query('search') search: string) {
+  getCategories(@Query('search') search?: string) {
     console.log(search, 'search');
     return this.categoryService.findAll(search);
   }

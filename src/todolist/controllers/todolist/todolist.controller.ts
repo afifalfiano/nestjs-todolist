@@ -11,12 +11,14 @@ import {
   Delete,
   ParseUUIDPipe,
 } from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger/dist/decorators';
 import { CreateTodolistDto, UpdateTodolistDto } from 'src/dtos';
 import { StatusTodos } from 'src/entities';
 import { TransformInterceptor } from 'src/middlewares';
 import { TodolistService } from 'src/todolist/services/todolist/todolist.service';
 import { CONSTANT } from 'src/utils';
 
+@ApiTags('Todolist')
 @UseInterceptors(TransformInterceptor)
 @Controller({ path: CONSTANT.API_PREFIX + 'todolist', version: '1' })
 export class TodolistController {
