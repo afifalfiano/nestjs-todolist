@@ -7,6 +7,7 @@ import {
   ParseIntPipe,
   Post,
   Put,
+  Query,
   UseInterceptors,
 } from '@nestjs/common';
 import { CategoryService } from 'src/category/services/category/category.service';
@@ -20,8 +21,9 @@ export class CategoryController {
   constructor(private categoryService: CategoryService) {}
 
   @Get()
-  getCategories() {
-    return this.categoryService.findAll();
+  getCategories(@Query('search') search: string) {
+    console.log(search, 'search');
+    return this.categoryService.findAll(search);
   }
 
   @Get(':id')

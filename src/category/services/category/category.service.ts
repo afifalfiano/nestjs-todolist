@@ -33,7 +33,7 @@ export class CategoryService {
   }
   async findById(id: number) {
     const category = await this.categoryRepository.findOne({
-      where: {id},
+      where: { id },
       relations: ['todolists'],
     });
     if (!category) {
@@ -41,7 +41,15 @@ export class CategoryService {
     }
     return category;
   }
-  findAll() {
-    return this.categoryRepository.find({ relations: ['todolists'] });
+  findAll(search = '') {
+    let data = this.categoryRepository.find({ relations: ['todolists'] });
+    if (search.length > 0) {
+      data = this.categoryRepository
+        .createQueryBuilder('category')
+        .where('category.name like :search', { search: `%${search}%` })
+        .orderBy('category.name', 'ASC')
+        .getMany();
+    }
+    return data;
   }
 }
