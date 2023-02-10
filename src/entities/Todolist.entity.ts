@@ -18,12 +18,13 @@ export enum StatusTodos {
 
 @Entity({ name: 'todolist' })
 export class TodolistEntity {
-  @PrimaryGeneratedColumn({ type: 'bigint' })
-  id: number;
 
-  // @Column()
-  // @Generated('uuid')
-  // uuid: string;
+  @PrimaryGeneratedColumn()
+  id: string | number
+
+  @Column()
+  @Generated('uuid')
+  uuid: string;
 
   @Column({ nullable: false, type: 'varchar', length: '25' })
   title: string;

@@ -15,9 +15,9 @@ export class CategoryEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
-  // @Column()
-  // @Generated('uuid')
-  // uuid: string;
+  @Column()
+  @Generated('uuid')
+  uuid: string;
 
   @Column({ nullable: false, length: 25 })
   name: string;
