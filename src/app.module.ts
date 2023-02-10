@@ -5,10 +5,16 @@ import { TodolistModule } from './todolist/todolist.module';
 import { CategoryModule } from './category/category.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { CategoryEntity, TodolistEntity } from './entities';
+import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
+import { APP_GUARD } from '@nestjs/core';
 @Module({
   imports: [
     TodolistModule,
     CategoryModule,
+    ThrottlerModule.forRoot({
+      ttl: 60,
+      limit: 20,
+    }),
     TypeOrmModule.forRoot({
       type: 'mysql',
       host: 'localhost',
@@ -21,6 +27,12 @@ import { CategoryEntity, TodolistEntity } from './entities';
     }),
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [
+    AppService,
+    {
+      provide: APP_GUARD,
+      useClass: ThrottlerGuard,
+    },
+  ],
 })
 export class AppModule {}
