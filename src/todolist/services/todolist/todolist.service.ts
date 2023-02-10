@@ -1,6 +1,8 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { CreateTodolistDto } from 'src/dtos';
 import { StatusTodos, TodolistEntity } from 'src/entities';
+import { CreateTodolistParams, UpdateTodolistParams } from 'src/types';
 import { Repository } from 'typeorm';
 
 @Injectable()
@@ -33,5 +35,18 @@ export class TodolistService {
     }
     data.status = status;
     return this.todolistRepository.save(data);
+  }
+
+  createTodo(createTodolistDto: CreateTodolistParams) {
+    const newTodo = this.todolistRepository.create({ ...createTodolistDto });
+    return this.todolistRepository.save(newTodo);
+  }
+
+  deleteTodo(id: number) {
+    return this.todolistRepository.delete({ id });
+  }
+
+  updateTodo(id: number, updateTodolistDto: UpdateTodolistParams) {
+    return this.todolistRepository.update({ id }, { ...updateTodolistDto });
   }
 }

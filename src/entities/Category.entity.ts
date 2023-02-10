@@ -2,6 +2,7 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  Generated,
   ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
@@ -9,10 +10,14 @@ import {
 } from 'typeorm';
 import { TodolistEntity } from './Todolist.entity';
 
-@Entity({name: 'category'})
+@Entity({ name: 'category' })
 export class CategoryEntity {
   @PrimaryGeneratedColumn()
   id: number;
+
+  // @Column()
+  // @Generated('uuid')
+  // uuid: string;
 
   @Column({ nullable: false, length: 25 })
   name: string;
@@ -23,7 +28,8 @@ export class CategoryEntity {
   @UpdateDateColumn()
   updatedAt: Date;
 
-  @OneToMany(() => TodolistEntity, (todolist) => todolist.category, {onDelete: 'SET NULL'})
-  todolists: TodolistEntity[]
-
+  @OneToMany(() => TodolistEntity, (todolist) => todolist.category, {
+    onDelete: 'SET NULL',
+  })
+  todolists: TodolistEntity[];
 }

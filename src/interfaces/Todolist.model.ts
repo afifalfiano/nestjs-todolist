@@ -5,7 +5,7 @@ export interface Todolist {
     id: number;
     title: string;
     description: string;
-    due_time: Date;
+    due_time: number;
     status: string;
     createdAt: Date;
     updatedAt: Date;
