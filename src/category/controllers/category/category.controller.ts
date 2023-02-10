@@ -8,6 +8,7 @@ import {
   Post,
   Put,
   Query,
+  ParseUUIDPipe,
   UseInterceptors,
 } from '@nestjs/common';
 import { CategoryService } from 'src/category/services/category/category.service';
@@ -26,9 +27,9 @@ export class CategoryController {
     return this.categoryService.findAll(search);
   }
 
-  @Get(':id')
-  getCategoryById(@Param('id', ParseIntPipe) id: number) {
-    return this.categoryService.findById(id);
+  @Get(':uuid')
+  getCategoryById(@Param('uuid', ParseUUIDPipe) uuid: string) {
+    return this.categoryService.findById(uuid);
   }
 
   @Post()
@@ -36,16 +37,16 @@ export class CategoryController {
     return this.categoryService.createCategory(createCategoryDto);
   }
 
-  @Put(':id')
+  @Put(':uuid')
   updateCategory(
-    @Param('id', ParseIntPipe) id: number,
+    @Param('uuid', ParseUUIDPipe) uuid: string,
     @Body() updateCategoryDto: UpdateCategoryDto,
   ) {
-    return this.categoryService.updateCategory(id, updateCategoryDto);
+    return this.categoryService.updateCategory(uuid, updateCategoryDto);
   }
 
-  @Delete(':id')
-  deleteCategory(@Param('id', ParseIntPipe) id: number) {
-    return this.categoryService.deleteCategory(id);
+  @Delete(':uuid')
+  deleteCategory(@Param('uuid', ParseUUIDPipe) uuid: string) {
+    return this.categoryService.deleteCategory(uuid);
   }
 }

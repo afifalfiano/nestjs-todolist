@@ -24,7 +24,7 @@ export class TodolistEntity {
 
   @Column()
   @Generated('uuid')
-  uuid: string;
+  uuid: any;
 
   @Column({ nullable: false, type: 'varchar', length: '25' })
   title: string;
@@ -45,7 +45,7 @@ export class TodolistEntity {
   updatedAt: Date;
 
   @ManyToOne(() => CategoryEntity, (category) => category.todolists, {
-    onDelete: 'SET NULL',
+    onDelete: 'SET NULL'
   })
   category: CategoryEntity;
 }

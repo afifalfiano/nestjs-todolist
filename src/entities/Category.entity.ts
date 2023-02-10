@@ -17,7 +17,7 @@ export class CategoryEntity {
 
   @Column()
   @Generated('uuid')
-  uuid: string;
+  uuid: any;
 
   @Column({ nullable: false, length: 25 })
   name: string;
@@ -32,6 +32,4 @@ export class CategoryEntity {
     onDelete: 'SET NULL',
   })
   todolists: TodolistEntity[];
-
-  countTodolist?: number;
 }

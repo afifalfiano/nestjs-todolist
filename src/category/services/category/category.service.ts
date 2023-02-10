@@ -11,19 +11,19 @@ export class CategoryService {
     private categoryRepository: Repository<CategoryEntity>,
   ) {}
 
-  async deleteCategory(id: number) {
-    const category = await this.categoryRepository.findOneBy({ id });
+  async deleteCategory(uuid: string) {
+    const category = await this.categoryRepository.findOneBy({ uuid });
     if (!category) {
       throw new HttpException('Category Not Found!', HttpStatus.BAD_REQUEST);
     }
-    return this.categoryRepository.delete(id);
+    return this.categoryRepository.delete(uuid);
   }
-  async updateCategory(id: number, updateCategoryDto: UpdateCategoryDto) {
-    const category = await this.categoryRepository.findOneBy({ id });
+  async updateCategory(uuid: string, updateCategoryDto: UpdateCategoryDto) {
+    const category = await this.categoryRepository.findOneBy({ uuid });
     if (!category) {
       throw new HttpException('Category Not Found!', HttpStatus.BAD_REQUEST);
     }
-    return this.categoryRepository.update({ id }, { ...updateCategoryDto });
+    return this.categoryRepository.update({ uuid }, { ...updateCategoryDto });
   }
   createCategory(createCategoryDto: CreateCategoryDto) {
     const newCategory = this.categoryRepository.create({
@@ -31,9 +31,9 @@ export class CategoryService {
     });
     return this.categoryRepository.save(newCategory);
   }
-  async findById(id: number) {
+  async findById(uuid: string) {
     const category = await this.categoryRepository.findOne({
-      where: { id },
+      where: { uuid },
       relations: ['todolists'],
     });
     if (!category) {

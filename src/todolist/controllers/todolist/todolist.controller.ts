@@ -2,7 +2,6 @@ import {
   Controller,
   Get,
   Param,
-  ParseIntPipe,
   Put,
   UseInterceptors,
   HttpException,
@@ -27,20 +26,20 @@ export class TodolistController {
     return this.todolistService.findAll();
   }
 
-  @Get('/view/:id')
-  getTodoById(@Param('id', ParseIntPipe) id: number) {
-    return this.todolistService.findTodoById(id);
+  @Get('/view/:uuid')
+  getTodoById(@Param('uuid', ParseUUIDPipe) uuid: string) {
+    return this.todolistService.findTodoById(uuid);
   }
 
-  @Put(':id/:status')
+  @Put(':uuid/:status')
   changeStatusTodo(
-    @Param('id', ParseIntPipe) id: number,
+    @Param('uuid', ParseUUIDPipe) uuid: string,
     @Param('status') statusTodo: StatusTodos,
   ) {
     if (!Object.values(StatusTodos).includes(statusTodo)) {
       throw new HttpException('Status not found!', HttpStatus.BAD_REQUEST);
     }
-    return this.todolistService.changeStatusTodo(id, statusTodo);
+    return this.todolistService.changeStatusTodo(uuid, statusTodo);
   }
 
   @Post()
@@ -48,17 +47,17 @@ export class TodolistController {
     return this.todolistService.createTodo(createTodolistDto);
   }
 
-  @Delete(':id')
-  deleteTodo(@Param('id', ParseIntPipe) id: number) {
-    return this.todolistService.deleteTodo(id);
+  @Delete(':uuid')
+  deleteTodo(@Param('uuid', ParseUUIDPipe) uuid: string) {
+    return this.todolistService.deleteTodo(uuid);
   }
 
-  @Put(':id')
+  @Put(':uuid')
   updateTodo(
-    @Param('id', ParseIntPipe) id: number,
+    @Param('uuid', ParseUUIDPipe) uuid: string,
     @Body() updateTodolistDto: UpdateTodolistDto,
   ) {
-    return this.todolistService.updateTodo(id, updateTodolistDto);
+    return this.todolistService.updateTodo(uuid, updateTodolistDto);
   }
 
   @Get('/count/:totalStatus')
