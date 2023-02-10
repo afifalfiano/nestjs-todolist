@@ -25,11 +25,14 @@ export class CategoryService {
     }
     return this.categoryRepository.update({ uuid }, { ...updateCategoryDto });
   }
-  createCategory(createCategoryDto: CreateCategoryDto) {
-    const newCategory = this.categoryRepository.create({
+  async createCategory(createCategoryDto: CreateCategoryDto) {
+    const newCategory = await this.categoryRepository.create({
       ...createCategoryDto,
     });
-    return this.categoryRepository.save(newCategory);
+    const saveCategory = await this.categoryRepository.save(newCategory);
+    const remapCategory = { ...saveCategory };
+    delete remapCategory.id;
+    return remapCategory;
   }
   async findById(uuid: string) {
     const category = await this.categoryRepository.findOne({
@@ -39,21 +42,42 @@ export class CategoryService {
     if (!category) {
       throw new HttpException('Category Not Found!', HttpStatus.BAD_REQUEST);
     }
-    return category;
+    const remapCategory = {
+      ...category,
+      todolists: category.todolists.map((item) => {
+        delete item.id;
+        return { ...item };
+      }),
+    };
+    delete remapCategory.id;
+    return remapCategory;
   }
   async findAll(search = '') {
     let data = await this.categoryRepository.find({ relations: ['todolists'] });
+
     if (search.length > 0) {
-      data = await this.categoryRepository
+      const datas = await this.categoryRepository
         .createQueryBuilder('category')
         .where('category.name like :search', { search: `%${search}%` })
         .orderBy('category.name', 'ASC')
         .getMany();
+      data = datas.map((item) => {
+        delete item.id;
+        return { ...item };
+      });
+    } else {
+      data = data.map((item) => {
+        delete item.id;
+        return {
+          ...item,
+          todolists: item.todolists.map((item) => {
+            delete item.id;
+            return { ...item };
+          }),
+        };
+      });
     }
-    // data = data.map((item) => {
-    //   delete item.id;
-    //   return { ...item };
-    // });
+
     return data;
   }
 }
