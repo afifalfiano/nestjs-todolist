@@ -49,4 +49,11 @@ export class TodolistService {
   updateTodo(id: number, updateTodolistDto: UpdateTodolistParams) {
     return this.todolistRepository.update({ id }, { ...updateTodolistDto });
   }
+
+  countTotalStatus(status: StatusTodos) {
+    if (!Object.values(StatusTodos).includes(status)) {
+      throw new HttpException('Status not found!', HttpStatus.BAD_REQUEST);
+    };
+    return this.todolistRepository.countBy({ status: status });
+  }
 }

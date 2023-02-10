@@ -27,13 +27,13 @@ export class TodolistController {
     return this.todolistService.findAll();
   }
 
-  @Get(':id')
+  @Get('/view/:id')
   getTodoById(@Param('id', ParseIntPipe) id: number) {
     return this.todolistService.findTodoById(id);
   }
 
   @Put(':id/:status')
-  doPendingTodo(
+  changeStatusTodo(
     @Param('id', ParseIntPipe) id: number,
     @Param('status') statusTodo: StatusTodos,
   ) {
@@ -60,4 +60,10 @@ export class TodolistController {
   ) {
     return this.todolistService.updateTodo(id, updateTodolistDto);
   }
+
+  @Get('/count/:totalStatus')
+  countTotalStatus(@Param('totalStatus') status: StatusTodos) {
+    return this.todolistService.countTotalStatus(status);
+  }
+  
 }
