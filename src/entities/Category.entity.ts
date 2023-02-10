@@ -32,4 +32,6 @@ export class CategoryEntity {
     onDelete: 'SET NULL',
   })
   todolists: TodolistEntity[];
+
+  countTodolist?: number;
 }

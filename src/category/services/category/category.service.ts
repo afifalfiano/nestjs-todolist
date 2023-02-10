@@ -33,22 +33,27 @@ export class CategoryService {
   }
   async findById(id: number) {
     const category = await this.categoryRepository.findOne({
-      where: { id }
+      where: { id },
+      relations: ['todolists'],
     });
     if (!category) {
       throw new HttpException('Category Not Found!', HttpStatus.BAD_REQUEST);
     }
     return category;
   }
-  findAll(search = '') {
-    let data = this.categoryRepository.find();
+  async findAll(search = '') {
+    let data = await this.categoryRepository.find({ relations: ['todolists'] });
     if (search.length > 0) {
-      data = this.categoryRepository
+      data = await this.categoryRepository
         .createQueryBuilder('category')
         .where('category.name like :search', { search: `%${search}%` })
         .orderBy('category.name', 'ASC')
         .getMany();
     }
+    // data = data.map((item) => {
+    //   delete item.id;
+    //   return { ...item };
+    // });
     return data;
   }
 }
